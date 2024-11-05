@@ -51,3 +51,31 @@ function initGame(checkersNumber, desk) {
     }
     return desk.reverse()
 }
+
+function drawDesk(desk, width, colors) {
+    let deskDiv = document.getElementById('desk')
+    deskDiv.style.gridTemplateColumns = `repeat(${width}, 1fr)`
+
+    for (const row of desk) {
+        for (const col of row) {
+            let field = document.createElement('div')
+
+            field.classList.add('field')
+            field.style.backgroundColor = col.color === 'white' ? colors.deskWhite : colors.deskBlack
+            field.textContent = col.position
+            if(col.color === 'black'){
+                field.style.color = 'white'
+            }
+
+            if(col.checker){
+                let checker = document.createElement('div')
+
+                checker.classList.add('checker')
+                checker.style.backgroundColor = col.checker.color === 'white' ? colors.checkerWhite : colors.checkerBlack
+                field.appendChild(checker)
+            }
+
+            deskDiv.appendChild(field)
+        }
+    }
+}
