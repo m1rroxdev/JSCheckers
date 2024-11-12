@@ -52,8 +52,7 @@ function initGame(checkersNumber, desk) {
     return desk.reverse()
 }
 
-function drawDesk(desk, width, colors) {
-    let deskDiv = document.getElementById('desk')
+function drawDesk(deskDiv, desk, width, colors) {
     deskDiv.style.gridTemplateColumns = `repeat(${width}, 1fr)`
 
     for (const row of desk) {
@@ -61,6 +60,7 @@ function drawDesk(desk, width, colors) {
             let field = document.createElement('div')
 
             field.classList.add('field')
+            field.dataset.id = col.position
             field.style.backgroundColor = col.color === 'white' ? colors.deskWhite : colors.deskBlack
             field.textContent = col.position
             if(col.color === 'black'){
