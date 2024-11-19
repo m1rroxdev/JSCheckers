@@ -1,6 +1,5 @@
-function createDesk(deskSize) {
+function createDesk(deskSize, letters) {
     const desk = [];
-    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     for (let row = 0; row < deskSize.height; row++) {
         const rowArray = [];
         for (let col = 0; col < deskSize.width; col++) {
@@ -77,5 +76,29 @@ function drawDesk(deskDiv, desk, width, colors) {
 
             deskDiv.appendChild(field)
         }
+    }
+}
+
+function Move(desk, checker, field, letters, deskDiv){
+    const checkerLet = checker.match(/[a-zA-Z]/g).join('');
+    const checkerNum = parseInt(checker.match(/\d+/g).join(''), 10);
+
+    const fieldLet = field.match(/[a-zA-Z]/g).join('');
+    const fieldNum = parseInt(field.match(/\d+/g).join(''), 10);
+
+    if (Math.abs(checkerNum - fieldNum) === 1 && Math.abs( letters.indexOf(checkerLet) - letters.indexOf(fieldLet) ) === 1){
+        let selectedChecker = desk[desk.length - checkerNum][letters.indexOf(checkerLet)]
+        let currentChecker = selectedChecker.checker
+        selectedChecker.checker = null
+
+        let selectedField = desk[desk.length - fieldNum][letters.indexOf(fieldLet)]
+        selectedField.checker = currentChecker
+
+        const checkerElement = document.querySelector(`.field[data-id="${checker}"] .checker`);
+        const fieldElement = document.querySelector(`.field[data-id="${field}"]`);
+
+        checkerElement.remove()
+        fieldElement.appendChild(checkerElement)
+
     }
 }

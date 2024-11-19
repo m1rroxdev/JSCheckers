@@ -1,3 +1,5 @@
+const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+
 const deskSize = {width: 8, height: 8};
 
 const checkersNumber = 24
@@ -9,7 +11,7 @@ const deskColors = {
     checkerBlack: 'red'
 }
 
-const clearDesk = createDesk(deskSize);
+const clearDesk = createDesk(deskSize, letters);
 
 const desk = initGame(checkersNumber, clearDesk)
 
@@ -35,7 +37,8 @@ deskElement.addEventListener('click', function (e) {
             activeChecker = fieldPosition
         } else {
             if (activeChecker) {
-
+                Move(desk, activeChecker, fieldPosition, letters, deskElement)
+                activeChecker = null
             }
         }
     }
