@@ -100,5 +100,6 @@ function Move(desk, checker, field, letters, deskDiv){
         checkerElement.remove()
         fieldElement.appendChild(checkerElement)
 
+        checkerElement.style.boxShadow = ''
     }
 }
