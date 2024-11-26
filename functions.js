@@ -62,13 +62,14 @@ function drawDesk(deskDiv, desk, width, colors) {
             field.dataset.id = col.position
             field.style.backgroundColor = col.color === 'white' ? colors.deskWhite : colors.deskBlack
             field.textContent = col.position
-            if(col.color === 'black'){
+            if (col.color === 'black') {
                 field.style.color = 'white'
             }
 
-            if(col.checker){
+            if (col.checker) {
                 let checker = document.createElement('div')
 
+                checker.dataset.color = col.checker.color
                 checker.classList.add('checker')
                 checker.style.backgroundColor = col.checker.color === 'white' ? colors.checkerWhite : colors.checkerBlack
                 field.appendChild(checker)
@@ -79,16 +80,24 @@ function drawDesk(deskDiv, desk, width, colors) {
     }
 }
 
-function Move(desk, checker, field, letters, deskDiv){
+function Move(desk, checker, field, letters) {
     const checkerLet = checker.match(/[a-zA-Z]/g).join('');
     const checkerNum = parseInt(checker.match(/\d+/g).join(''), 10);
 
     const fieldLet = field.match(/[a-zA-Z]/g).join('');
     const fieldNum = parseInt(field.match(/\d+/g).join(''), 10);
 
-    if (Math.abs(checkerNum - fieldNum) === 1 && Math.abs( letters.indexOf(checkerLet) - letters.indexOf(fieldLet) ) === 1){
-        let selectedChecker = desk[desk.length - checkerNum][letters.indexOf(checkerLet)]
-        let currentChecker = selectedChecker.checker
+    let selectedChecker = desk[desk.length - checkerNum][letters.indexOf(checkerLet)]
+    let currentChecker = selectedChecker.checker
+    if (
+        Math.abs(checkerNum - fieldNum) === 1 &&
+        Math.abs(letters.indexOf(checkerLet) - letters.indexOf(fieldLet)) === 1 &&
+        (
+            (checkerNum - fieldNum === -1 && currentChecker.color === 'white') ||
+            (checkerNum - fieldNum === 1 && currentChecker.color === 'black')
+        )
+    ) {
+
         selectedChecker.checker = null
 
         let selectedField = desk[desk.length - fieldNum][letters.indexOf(fieldLet)]
@@ -101,5 +110,12 @@ function Move(desk, checker, field, letters, deskDiv){
         fieldElement.appendChild(checkerElement)
 
         checkerElement.style.boxShadow = ''
+        return true
+    }else if (
+        Math.abs(checkerNum - fieldNum) === 2 &&
+        Math.abs(letters.indexOf(checkerLet) - letters.indexOf(fieldLet)) === 2
+    ){
+
     }
+    return false
 }
